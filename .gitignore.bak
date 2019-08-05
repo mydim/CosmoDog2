@@ -2,8 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/CosmoDog/bin/
-/.vs/
+/.vs/CosmoDog/v15/Server/sqlite3/storage.ide-wal
 /.vs/CosmoDog/v15/Server/sqlite3/storage.ide-shm
 /.vs/CosmoDog/v15/Server/sqlite3/storage.ide
 /.vs/CosmoDog/v15/Server/sqlite3/db.lock
