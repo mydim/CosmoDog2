@@ -532,7 +532,10 @@ namespace CosmoDog
             if (where == "1=1")
                 where = "";
 
-            var query = "SELECT * FROM " + col.Id + " c "  + (where ==""?"":"WHERE ")+ where;
+            string query = "SELECT * FROM " + col.Id+" c ";
+
+            if (where !="")
+                query+= (where ==""?"":"WHERE ")+ where;
 
             var querySqlQuerySpec = new SqlQuerySpec(query);
             var documents = client.CreateDocumentQuery<JObject>(col.SelfLink, query,

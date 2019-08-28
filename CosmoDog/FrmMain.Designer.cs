@@ -80,10 +80,10 @@ namespace CosmoDog
             this.btnCopyAsync = new System.Windows.Forms.Button();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpImport = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tpQuery = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.collectionGroupViewBox1 = new CosmoDog.UIControl.CollectionGroupViewBox();
+            this.tpQuery = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.gbSource.SuspendLayout();
             this.gbDest.SuspendLayout();
@@ -338,7 +338,7 @@ namespace CosmoDog
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(624, 698);
+            this.groupBox4.Size = new System.Drawing.Size(624, 756);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Result";
@@ -378,7 +378,7 @@ namespace CosmoDog
             this.jsonTreeView.Location = new System.Drawing.Point(3, 16);
             this.jsonTreeView.Name = "jsonTreeView";
             this.jsonTreeView.SelectedImageIndex = 0;
-            this.jsonTreeView.Size = new System.Drawing.Size(618, 679);
+            this.jsonTreeView.Size = new System.Drawing.Size(618, 737);
             this.jsonTreeView.TabIndex = 0;
             // 
             // groupBox3
@@ -597,6 +597,16 @@ namespace CosmoDog
             this.tpImport.Text = "Export";
             this.tpImport.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(6, 517);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(172, 42);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "<<<<<<<";
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.collectionGroupViewBox1);
@@ -608,6 +618,14 @@ namespace CosmoDog
             this.tabPage4.Text = "Explorer";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // collectionGroupViewBox1
+            // 
+            this.collectionGroupViewBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.collectionGroupViewBox1.Location = new System.Drawing.Point(3, 3);
+            this.collectionGroupViewBox1.Name = "collectionGroupViewBox1";
+            this.collectionGroupViewBox1.Size = new System.Drawing.Size(624, 756);
+            this.collectionGroupViewBox1.TabIndex = 0;
+            // 
             // tpQuery
             // 
             this.tpQuery.Controls.Add(this.groupBox2);
@@ -616,28 +634,10 @@ namespace CosmoDog
             this.tpQuery.Location = new System.Drawing.Point(4, 22);
             this.tpQuery.Name = "tpQuery";
             this.tpQuery.Padding = new System.Windows.Forms.Padding(3);
-            this.tpQuery.Size = new System.Drawing.Size(630, 704);
+            this.tpQuery.Size = new System.Drawing.Size(630, 762);
             this.tpQuery.TabIndex = 2;
             this.tpQuery.Text = "Query";
             this.tpQuery.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(6, 517);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(172, 42);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "<<<<<<<";
-            // 
-            // collectionGroupViewBox1
-            // 
-            this.collectionGroupViewBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.collectionGroupViewBox1.Location = new System.Drawing.Point(3, 3);
-            this.collectionGroupViewBox1.Name = "collectionGroupViewBox1";
-            this.collectionGroupViewBox1.Size = new System.Drawing.Size(624, 756);
-            this.collectionGroupViewBox1.TabIndex = 0;
             // 
             // FrmMain
             // 

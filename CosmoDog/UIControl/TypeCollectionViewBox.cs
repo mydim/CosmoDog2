@@ -26,10 +26,11 @@ namespace CosmoDog.UIControl
             var where = "1=0";
             foreach (var field in type.Fields)
             {
-                where = where + " or c." + field + "='" + text + "'";
+                where = where + " or c." + field + "!='" + text + "'";
             }
 
             var documents = FrmMain.ExecuteQuery(cosmosDb.Client, col, where);
+
 
             if (!documents.Any())
             {
