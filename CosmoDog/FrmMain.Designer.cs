@@ -36,23 +36,26 @@ namespace CosmoDog
             this.btnSwtichConnection = new System.Windows.Forms.Button();
             this.cosmosSource = new CosmoDog.CosmosDBBox();
             this.gbDest = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbLog = new System.Windows.Forms.ListBox();
+            this.lMaxThreads = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbBulkUpload = new System.Windows.Forms.CheckBox();
-            this.btnChooseFolder = new System.Windows.Forms.Button();
+            this.btnChooseImportFolder = new System.Windows.Forms.Button();
             this.btnChooseZip = new System.Windows.Forms.Button();
             this.tbImportFolder = new System.Windows.Forms.TextBox();
             this.btnImportFolder = new System.Windows.Forms.Button();
             this.btnImportFromZip = new System.Windows.Forms.Button();
             this.tbImportZip = new System.Windows.Forms.TextBox();
-            this.btnCreateCollectionFromSource = new System.Windows.Forms.Button();
+            this.tbMaxThreads = new System.Windows.Forms.TextBox();
             this.btnReacreateCollections = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnDeleteDataInSelected = new System.Windows.Forms.Button();
             this.cosmosDest = new CosmoDog.CosmosDBBox();
+            this.btnCreateCollectionFromSource = new System.Windows.Forms.Button();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.btnOverride = new System.Windows.Forms.Button();
             this.btnMerge = new System.Windows.Forms.Button();
-            this.lbLog = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lRecordsFound = new System.Windows.Forms.Label();
             this.cbFilterList = new System.Windows.Forms.ComboBox();
@@ -79,23 +82,33 @@ namespace CosmoDog
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnCopyAsync = new System.Windows.Forms.Button();
             this.tcMain = new System.Windows.Forms.TabControl();
-            this.tpImport = new System.Windows.Forms.TabPage();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tpExplorer = new System.Windows.Forms.TabPage();
             this.collectionGroupViewBox1 = new CosmoDog.UIControl.CollectionGroupViewBox();
+            this.tpExport = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
             this.tpQuery = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnExportToFolder = new System.Windows.Forms.Button();
+            this.tbExportFolder = new System.Windows.Forms.TextBox();
+            this.btnChooseExportFolder = new System.Windows.Forms.Button();
+            this.tbExportPartitionValue = new System.Windows.Forms.TextBox();
+            this.tbExportPartitionKey = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cbIsNeedCleanExportFolder = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.gbSource.SuspendLayout();
             this.gbDest.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tcMain.SuspendLayout();
-            this.tpImport.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.tpExplorer.SuspendLayout();
+            this.tpExport.SuspendLayout();
             this.tpQuery.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -104,7 +117,7 @@ namespace CosmoDog
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(624, 499);
+            this.panel1.Size = new System.Drawing.Size(792, 499);
             this.panel1.TabIndex = 2;
             // 
             // gbSource
@@ -114,7 +127,7 @@ namespace CosmoDog
             this.gbSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSource.Location = new System.Drawing.Point(0, 0);
             this.gbSource.Name = "gbSource";
-            this.gbSource.Size = new System.Drawing.Size(624, 499);
+            this.gbSource.Size = new System.Drawing.Size(792, 499);
             this.gbSource.TabIndex = 2;
             this.gbSource.TabStop = false;
             this.gbSource.Text = "Source DB";
@@ -137,13 +150,16 @@ namespace CosmoDog
     "VqVmawRQ==";
             this.cosmosSource.Location = new System.Drawing.Point(3, 16);
             this.cosmosSource.Name = "cosmosSource";
-            this.cosmosSource.Size = new System.Drawing.Size(618, 480);
+            this.cosmosSource.Size = new System.Drawing.Size(786, 480);
             this.cosmosSource.TabIndex = 0;
             // 
             // gbDest
             // 
+            this.gbDest.Controls.Add(this.groupBox6);
+            this.gbDest.Controls.Add(this.groupBox1);
+            this.gbDest.Controls.Add(this.lMaxThreads);
             this.gbDest.Controls.Add(this.groupBox5);
-            this.gbDest.Controls.Add(this.btnCreateCollectionFromSource);
+            this.gbDest.Controls.Add(this.tbMaxThreads);
             this.gbDest.Controls.Add(this.btnReacreateCollections);
             this.gbDest.Controls.Add(this.button1);
             this.gbDest.Controls.Add(this.btnDeleteDataInSelected);
@@ -151,33 +167,62 @@ namespace CosmoDog
             this.gbDest.Dock = System.Windows.Forms.DockStyle.Left;
             this.gbDest.Location = new System.Drawing.Point(0, 0);
             this.gbDest.Name = "gbDest";
-            this.gbDest.Size = new System.Drawing.Size(459, 788);
+            this.gbDest.Size = new System.Drawing.Size(291, 927);
             this.gbDest.TabIndex = 3;
             this.gbDest.TabStop = false;
             this.gbDest.Text = "Destination DB for Import / Main Connection";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lbLog);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(3, 748);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(285, 176);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Log";
+            // 
+            // lbLog
+            // 
+            this.lbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbLog.FormattingEnabled = true;
+            this.lbLog.Location = new System.Drawing.Point(3, 16);
+            this.lbLog.Name = "lbLog";
+            this.lbLog.Size = new System.Drawing.Size(279, 157);
+            this.lbLog.TabIndex = 4;
+            // 
+            // lMaxThreads
+            // 
+            this.lMaxThreads.AutoSize = true;
+            this.lMaxThreads.Location = new System.Drawing.Point(157, 515);
+            this.lMaxThreads.Name = "lMaxThreads";
+            this.lMaxThreads.Size = new System.Drawing.Size(69, 13);
+            this.lMaxThreads.TabIndex = 8;
+            this.lMaxThreads.Text = "Max Threads";
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.cbBulkUpload);
-            this.groupBox5.Controls.Add(this.btnChooseFolder);
+            this.groupBox5.Controls.Add(this.btnChooseImportFolder);
             this.groupBox5.Controls.Add(this.btnChooseZip);
             this.groupBox5.Controls.Add(this.tbImportFolder);
             this.groupBox5.Controls.Add(this.btnImportFolder);
             this.groupBox5.Controls.Add(this.btnImportFromZip);
             this.groupBox5.Controls.Add(this.tbImportZip);
-            this.groupBox5.Location = new System.Drawing.Point(6, 676);
+            this.groupBox5.Location = new System.Drawing.Point(12, 568);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(346, 110);
+            this.groupBox5.Size = new System.Drawing.Size(273, 94);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Zip to collections";
+            this.groupBox5.Text = "Import data";
             // 
             // cbBulkUpload
             // 
             this.cbBulkUpload.AutoSize = true;
             this.cbBulkUpload.Checked = true;
             this.cbBulkUpload.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbBulkUpload.Location = new System.Drawing.Point(18, 74);
+            this.cbBulkUpload.Location = new System.Drawing.Point(6, 74);
             this.cbBulkUpload.Name = "cbBulkUpload";
             this.cbBulkUpload.Size = new System.Drawing.Size(84, 17);
             this.cbBulkUpload.TabIndex = 6;
@@ -185,19 +230,19 @@ namespace CosmoDog
             this.cbBulkUpload.UseVisualStyleBackColor = true;
             this.cbBulkUpload.Visible = false;
             // 
-            // btnChooseFolder
+            // btnChooseImportFolder
             // 
-            this.btnChooseFolder.Location = new System.Drawing.Point(124, 46);
-            this.btnChooseFolder.Name = "btnChooseFolder";
-            this.btnChooseFolder.Size = new System.Drawing.Size(35, 23);
-            this.btnChooseFolder.TabIndex = 5;
-            this.btnChooseFolder.Text = "...";
-            this.btnChooseFolder.UseVisualStyleBackColor = true;
-            this.btnChooseFolder.Click += new System.EventHandler(this.btnChooseFolder_Click);
+            this.btnChooseImportFolder.Location = new System.Drawing.Point(77, 46);
+            this.btnChooseImportFolder.Name = "btnChooseImportFolder";
+            this.btnChooseImportFolder.Size = new System.Drawing.Size(35, 23);
+            this.btnChooseImportFolder.TabIndex = 5;
+            this.btnChooseImportFolder.Text = "...";
+            this.btnChooseImportFolder.UseVisualStyleBackColor = true;
+            this.btnChooseImportFolder.Click += new System.EventHandler(this.btnChooseFolder_Click);
             // 
             // btnChooseZip
             // 
-            this.btnChooseZip.Location = new System.Drawing.Point(124, 17);
+            this.btnChooseZip.Location = new System.Drawing.Point(77, 17);
             this.btnChooseZip.Name = "btnChooseZip";
             this.btnChooseZip.Size = new System.Drawing.Size(35, 23);
             this.btnChooseZip.TabIndex = 5;
@@ -207,16 +252,16 @@ namespace CosmoDog
             // 
             // tbImportFolder
             // 
-            this.tbImportFolder.Location = new System.Drawing.Point(18, 48);
+            this.tbImportFolder.Location = new System.Drawing.Point(6, 48);
             this.tbImportFolder.Name = "tbImportFolder";
-            this.tbImportFolder.Size = new System.Drawing.Size(100, 20);
+            this.tbImportFolder.Size = new System.Drawing.Size(65, 20);
             this.tbImportFolder.TabIndex = 0;
             // 
             // btnImportFolder
             // 
-            this.btnImportFolder.Location = new System.Drawing.Point(176, 45);
+            this.btnImportFolder.Location = new System.Drawing.Point(164, 45);
             this.btnImportFolder.Name = "btnImportFolder";
-            this.btnImportFolder.Size = new System.Drawing.Size(154, 23);
+            this.btnImportFolder.Size = new System.Drawing.Size(101, 23);
             this.btnImportFolder.TabIndex = 4;
             this.btnImportFolder.Text = "Import from folder";
             this.btnImportFolder.UseVisualStyleBackColor = true;
@@ -224,9 +269,9 @@ namespace CosmoDog
             // 
             // btnImportFromZip
             // 
-            this.btnImportFromZip.Location = new System.Drawing.Point(176, 16);
+            this.btnImportFromZip.Location = new System.Drawing.Point(164, 16);
             this.btnImportFromZip.Name = "btnImportFromZip";
-            this.btnImportFromZip.Size = new System.Drawing.Size(154, 23);
+            this.btnImportFromZip.Size = new System.Drawing.Size(101, 23);
             this.btnImportFromZip.TabIndex = 4;
             this.btnImportFromZip.Text = "Import from zip";
             this.btnImportFromZip.UseVisualStyleBackColor = true;
@@ -234,24 +279,23 @@ namespace CosmoDog
             // 
             // tbImportZip
             // 
-            this.tbImportZip.Location = new System.Drawing.Point(18, 19);
+            this.tbImportZip.Location = new System.Drawing.Point(6, 19);
             this.tbImportZip.Name = "tbImportZip";
-            this.tbImportZip.Size = new System.Drawing.Size(100, 20);
+            this.tbImportZip.Size = new System.Drawing.Size(65, 20);
             this.tbImportZip.TabIndex = 0;
             // 
-            // btnCreateCollectionFromSource
+            // tbMaxThreads
             // 
-            this.btnCreateCollectionFromSource.Location = new System.Drawing.Point(290, 636);
-            this.btnCreateCollectionFromSource.Name = "btnCreateCollectionFromSource";
-            this.btnCreateCollectionFromSource.Size = new System.Drawing.Size(157, 23);
-            this.btnCreateCollectionFromSource.TabIndex = 3;
-            this.btnCreateCollectionFromSource.Text = "Create Collection from Source";
-            this.btnCreateCollectionFromSource.UseVisualStyleBackColor = true;
-            this.btnCreateCollectionFromSource.Click += new System.EventHandler(this.btnCreateCollectionFromSource_Click);
+            this.tbMaxThreads.Location = new System.Drawing.Point(232, 512);
+            this.tbMaxThreads.Name = "tbMaxThreads";
+            this.tbMaxThreads.Size = new System.Drawing.Size(53, 20);
+            this.tbMaxThreads.TabIndex = 7;
+            this.tbMaxThreads.Text = "10";
+            this.tbMaxThreads.TextChanged += new System.EventHandler(this.tbMaxThreads_TextChanged);
             // 
             // btnReacreateCollections
             // 
-            this.btnReacreateCollections.Location = new System.Drawing.Point(146, 636);
+            this.btnReacreateCollections.Location = new System.Drawing.Point(12, 538);
             this.btnReacreateCollections.Name = "btnReacreateCollections";
             this.btnReacreateCollections.Size = new System.Drawing.Size(138, 23);
             this.btnReacreateCollections.TabIndex = 3;
@@ -261,7 +305,7 @@ namespace CosmoDog
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(2, 636);
+            this.button1.Location = new System.Drawing.Point(12, 509);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(138, 23);
             this.button1.TabIndex = 3;
@@ -271,11 +315,11 @@ namespace CosmoDog
             // 
             // btnDeleteDataInSelected
             // 
-            this.btnDeleteDataInSelected.Location = new System.Drawing.Point(2, 607);
+            this.btnDeleteDataInSelected.Location = new System.Drawing.Point(12, 480);
             this.btnDeleteDataInSelected.Name = "btnDeleteDataInSelected";
-            this.btnDeleteDataInSelected.Size = new System.Drawing.Size(269, 23);
+            this.btnDeleteDataInSelected.Size = new System.Drawing.Size(195, 23);
             this.btnDeleteDataInSelected.TabIndex = 3;
-            this.btnDeleteDataInSelected.Text = "Delete data in selected collections of destination";
+            this.btnDeleteDataInSelected.Text = "Delete data in selected collections";
             this.btnDeleteDataInSelected.UseVisualStyleBackColor = true;
             this.btnDeleteDataInSelected.Click += new System.EventHandler(this.btnDeleteDataInSelected_Click);
             // 
@@ -286,8 +330,26 @@ namespace CosmoDog
     "EHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
             this.cosmosDest.Location = new System.Drawing.Point(3, 16);
             this.cosmosDest.Name = "cosmosDest";
-            this.cosmosDest.Size = new System.Drawing.Size(453, 586);
+            this.cosmosDest.Size = new System.Drawing.Size(285, 458);
             this.cosmosDest.TabIndex = 1;
+            // 
+            // btnCreateCollectionFromSource
+            // 
+            this.btnCreateCollectionFromSource.Location = new System.Drawing.Point(184, 596);
+            this.btnCreateCollectionFromSource.Name = "btnCreateCollectionFromSource";
+            this.btnCreateCollectionFromSource.Size = new System.Drawing.Size(191, 23);
+            this.btnCreateCollectionFromSource.TabIndex = 3;
+            this.btnCreateCollectionFromSource.Text = "Create collections from Source";
+            this.btnCreateCollectionFromSource.UseVisualStyleBackColor = true;
+            this.btnCreateCollectionFromSource.Click += new System.EventHandler(this.btnCreateCollectionFromSource_Click);
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(291, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 927);
+            this.splitter1.TabIndex = 9;
+            this.splitter1.TabStop = false;
             // 
             // btnOverride
             // 
@@ -309,26 +371,6 @@ namespace CosmoDog
             this.btnMerge.UseVisualStyleBackColor = true;
             this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
             // 
-            // lbLog
-            // 
-            this.lbLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbLog.FormattingEnabled = true;
-            this.lbLog.Location = new System.Drawing.Point(3, 16);
-            this.lbLog.Name = "lbLog";
-            this.lbLog.Size = new System.Drawing.Size(618, 112);
-            this.lbLog.TabIndex = 4;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.lbLog);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(3, 628);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(624, 131);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Log";
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.lRecordsFound);
@@ -338,7 +380,7 @@ namespace CosmoDog
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(624, 756);
+            this.groupBox4.Size = new System.Drawing.Size(792, 895);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Result";
@@ -378,7 +420,7 @@ namespace CosmoDog
             this.jsonTreeView.Location = new System.Drawing.Point(3, 16);
             this.jsonTreeView.Name = "jsonTreeView";
             this.jsonTreeView.SelectedImageIndex = 0;
-            this.jsonTreeView.Size = new System.Drawing.Size(618, 737);
+            this.jsonTreeView.Size = new System.Drawing.Size(786, 876);
             this.jsonTreeView.TabIndex = 0;
             // 
             // groupBox3
@@ -402,7 +444,7 @@ namespace CosmoDog
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(624, 137);
+            this.groupBox3.Size = new System.Drawing.Size(792, 137);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Filter by field";
@@ -545,7 +587,7 @@ namespace CosmoDog
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 140);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(624, 63);
+            this.groupBox2.Size = new System.Drawing.Size(792, 63);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Query";
@@ -556,7 +598,7 @@ namespace CosmoDog
             this.textBox1.Location = new System.Drawing.Point(3, 16);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(618, 44);
+            this.textBox1.Size = new System.Drawing.Size(786, 44);
             this.textBox1.TabIndex = 0;
             // 
             // btnCopyAsync
@@ -571,31 +613,51 @@ namespace CosmoDog
             // 
             // tcMain
             // 
-            this.tcMain.Controls.Add(this.tpImport);
-            this.tcMain.Controls.Add(this.tabPage4);
+            this.tcMain.Controls.Add(this.tpExplorer);
+            this.tcMain.Controls.Add(this.tpExport);
             this.tcMain.Controls.Add(this.tpQuery);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcMain.Location = new System.Drawing.Point(459, 0);
+            this.tcMain.Location = new System.Drawing.Point(291, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(638, 788);
+            this.tcMain.Size = new System.Drawing.Size(806, 927);
             this.tcMain.TabIndex = 3;
+            this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
-            // tpImport
+            // tpExplorer
             // 
-            this.tpImport.Controls.Add(this.label9);
-            this.tpImport.Controls.Add(this.groupBox1);
-            this.tpImport.Controls.Add(this.panel1);
-            this.tpImport.Controls.Add(this.btnMerge);
-            this.tpImport.Controls.Add(this.btnOverride);
-            this.tpImport.Controls.Add(this.btnCopyAsync);
-            this.tpImport.Location = new System.Drawing.Point(4, 22);
-            this.tpImport.Name = "tpImport";
-            this.tpImport.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImport.Size = new System.Drawing.Size(630, 762);
-            this.tpImport.TabIndex = 0;
-            this.tpImport.Text = "Export";
-            this.tpImport.UseVisualStyleBackColor = true;
+            this.tpExplorer.Controls.Add(this.collectionGroupViewBox1);
+            this.tpExplorer.Location = new System.Drawing.Point(4, 22);
+            this.tpExplorer.Name = "tpExplorer";
+            this.tpExplorer.Padding = new System.Windows.Forms.Padding(3);
+            this.tpExplorer.Size = new System.Drawing.Size(798, 901);
+            this.tpExplorer.TabIndex = 1;
+            this.tpExplorer.Text = "Explorer";
+            this.tpExplorer.UseVisualStyleBackColor = true;
+            // 
+            // collectionGroupViewBox1
+            // 
+            this.collectionGroupViewBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.collectionGroupViewBox1.Location = new System.Drawing.Point(3, 3);
+            this.collectionGroupViewBox1.Name = "collectionGroupViewBox1";
+            this.collectionGroupViewBox1.Size = new System.Drawing.Size(792, 895);
+            this.collectionGroupViewBox1.TabIndex = 0;
+            // 
+            // tpExport
+            // 
+            this.tpExport.Controls.Add(this.label9);
+            this.tpExport.Controls.Add(this.panel1);
+            this.tpExport.Controls.Add(this.btnMerge);
+            this.tpExport.Controls.Add(this.btnOverride);
+            this.tpExport.Controls.Add(this.btnCreateCollectionFromSource);
+            this.tpExport.Controls.Add(this.btnCopyAsync);
+            this.tpExport.Location = new System.Drawing.Point(4, 22);
+            this.tpExport.Name = "tpExport";
+            this.tpExport.Padding = new System.Windows.Forms.Padding(3);
+            this.tpExport.Size = new System.Drawing.Size(798, 901);
+            this.tpExport.TabIndex = 0;
+            this.tpExport.Text = "Export";
+            this.tpExport.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -607,25 +669,6 @@ namespace CosmoDog
             this.label9.TabIndex = 6;
             this.label9.Text = "<<<<<<<";
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.collectionGroupViewBox1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(630, 762);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Explorer";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // collectionGroupViewBox1
-            // 
-            this.collectionGroupViewBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.collectionGroupViewBox1.Location = new System.Drawing.Point(3, 3);
-            this.collectionGroupViewBox1.Name = "collectionGroupViewBox1";
-            this.collectionGroupViewBox1.Size = new System.Drawing.Size(624, 756);
-            this.collectionGroupViewBox1.TabIndex = 0;
-            // 
             // tpQuery
             // 
             this.tpQuery.Controls.Add(this.groupBox2);
@@ -634,29 +677,123 @@ namespace CosmoDog
             this.tpQuery.Location = new System.Drawing.Point(4, 22);
             this.tpQuery.Name = "tpQuery";
             this.tpQuery.Padding = new System.Windows.Forms.Padding(3);
-            this.tpQuery.Size = new System.Drawing.Size(630, 762);
+            this.tpQuery.Size = new System.Drawing.Size(798, 901);
             this.tpQuery.TabIndex = 2;
             this.tpQuery.Text = "Query";
             this.tpQuery.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.cbIsNeedCleanExportFolder);
+            this.groupBox6.Controls.Add(this.tbExportPartitionValue);
+            this.groupBox6.Controls.Add(this.tbExportPartitionKey);
+            this.groupBox6.Controls.Add(this.label11);
+            this.groupBox6.Controls.Add(this.label10);
+            this.groupBox6.Controls.Add(this.btnExportToFolder);
+            this.groupBox6.Controls.Add(this.btnChooseExportFolder);
+            this.groupBox6.Controls.Add(this.tbExportFolder);
+            this.groupBox6.Location = new System.Drawing.Point(12, 665);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(273, 77);
+            this.groupBox6.TabIndex = 9;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Export data to folder";
+            // 
+            // btnExportToFolder
+            // 
+            this.btnExportToFolder.Location = new System.Drawing.Point(209, 48);
+            this.btnExportToFolder.Name = "btnExportToFolder";
+            this.btnExportToFolder.Size = new System.Drawing.Size(56, 23);
+            this.btnExportToFolder.TabIndex = 4;
+            this.btnExportToFolder.Text = "Export";
+            this.btnExportToFolder.UseVisualStyleBackColor = true;
+            this.btnExportToFolder.Click += new System.EventHandler(this.btnExportToFolder_Click);
+            // 
+            // tbExportFolder
+            // 
+            this.tbExportFolder.Location = new System.Drawing.Point(6, 51);
+            this.tbExportFolder.Name = "tbExportFolder";
+            this.tbExportFolder.Size = new System.Drawing.Size(65, 20);
+            this.tbExportFolder.TabIndex = 0;
+            // 
+            // btnChooseExportFolder
+            // 
+            this.btnChooseExportFolder.Location = new System.Drawing.Point(77, 48);
+            this.btnChooseExportFolder.Name = "btnChooseExportFolder";
+            this.btnChooseExportFolder.Size = new System.Drawing.Size(35, 23);
+            this.btnChooseExportFolder.TabIndex = 5;
+            this.btnChooseExportFolder.Text = "...";
+            this.btnChooseExportFolder.UseVisualStyleBackColor = true;
+            this.btnChooseExportFolder.Click += new System.EventHandler(this.btnChooseFolder_Click);
+            // 
+            // tbExportPartitionValue
+            // 
+            this.tbExportPartitionValue.Location = new System.Drawing.Point(209, 19);
+            this.tbExportPartitionValue.Name = "tbExportPartitionValue";
+            this.tbExportPartitionValue.Size = new System.Drawing.Size(58, 20);
+            this.tbExportPartitionValue.TabIndex = 6;
+            this.tbExportPartitionValue.Text = "0";
+            // 
+            // tbExportPartitionKey
+            // 
+            this.tbExportPartitionKey.Location = new System.Drawing.Point(38, 19);
+            this.tbExportPartitionKey.Name = "tbExportPartitionKey";
+            this.tbExportPartitionKey.Size = new System.Drawing.Size(125, 20);
+            this.tbExportPartitionKey.TabIndex = 7;
+            this.tbExportPartitionKey.Text = "anonymousTenantId";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(169, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(34, 13);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "Value";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(21, 13);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "PK";
+            // 
+            // cbIsNeedCleanExportFolder
+            // 
+            this.cbIsNeedCleanExportFolder.AutoSize = true;
+            this.cbIsNeedCleanExportFolder.Checked = true;
+            this.cbIsNeedCleanExportFolder.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbIsNeedCleanExportFolder.Location = new System.Drawing.Point(118, 52);
+            this.cbIsNeedCleanExportFolder.Name = "cbIsNeedCleanExportFolder";
+            this.cbIsNeedCleanExportFolder.Size = new System.Drawing.Size(85, 17);
+            this.cbIsNeedCleanExportFolder.TabIndex = 6;
+            this.cbIsNeedCleanExportFolder.Text = "Clean Folder";
+            this.cbIsNeedCleanExportFolder.UseVisualStyleBackColor = true;
+            this.cbIsNeedCleanExportFolder.Visible = false;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1097, 788);
+            this.ClientSize = new System.Drawing.Size(1097, 927);
+            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.gbDest);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cosmo Dog. Data Import/Export tool  / Author: Dmitriy Frolov";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.panel1.ResumeLayout(false);
             this.gbSource.ResumeLayout(false);
             this.gbDest.ResumeLayout(false);
+            this.gbDest.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -664,10 +801,12 @@ namespace CosmoDog
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tcMain.ResumeLayout(false);
-            this.tpImport.ResumeLayout(false);
-            this.tpImport.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
+            this.tpExplorer.ResumeLayout(false);
+            this.tpExport.ResumeLayout(false);
+            this.tpExport.PerformLayout();
             this.tpQuery.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -711,7 +850,7 @@ namespace CosmoDog
         private System.Windows.Forms.Button btnImportFromZip;
         private System.Windows.Forms.TextBox tbImportZip;
         private System.Windows.Forms.Button btnReacreateCollections;
-        private System.Windows.Forms.Button btnChooseFolder;
+        private System.Windows.Forms.Button btnChooseImportFolder;
         private System.Windows.Forms.TextBox tbImportFolder;
         private System.Windows.Forms.Button btnImportFolder;
         private System.Windows.Forms.Button btnCreateCollectionFromSource;
@@ -722,11 +861,23 @@ namespace CosmoDog
         private System.Windows.Forms.TextBox tbFilterValue4;
         private System.Windows.Forms.TextBox tbFilterField4;
         private System.Windows.Forms.TabControl tcMain;
-        private System.Windows.Forms.TabPage tpImport;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tpExport;
+        private System.Windows.Forms.TabPage tpExplorer;
         private System.Windows.Forms.TabPage tpQuery;
         private System.Windows.Forms.Label label9;
         private UIControl.CollectionGroupViewBox collectionGroupViewBox1;
+        private System.Windows.Forms.Label lMaxThreads;
+        private System.Windows.Forms.TextBox tbMaxThreads;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox cbIsNeedCleanExportFolder;
+        private System.Windows.Forms.TextBox tbExportPartitionValue;
+        private System.Windows.Forms.TextBox tbExportPartitionKey;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btnExportToFolder;
+        private System.Windows.Forms.Button btnChooseExportFolder;
+        private System.Windows.Forms.TextBox tbExportFolder;
     }
 }
 

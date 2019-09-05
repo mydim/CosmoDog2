@@ -53,7 +53,8 @@ namespace CosmoDog.UIControl
                     var tcol = new TypeCollectionViewBox();
                     tcol.Dock = DockStyle.Top;
                     tcol.Height = 150;
-                    tcol.Init(this.cosmosDb, col.Key, type, tbQueryString.Text);
+                    tcol.Init(this.cosmosDb, col.Key, type, tbQueryString.Text, tbQueryStringEverywhere.Text);
+                    tcol.OnCellClickHandler += Tcol_OnCellClickHandler;
                     pResults.Controls.Add(tcol);
                 }
             }
@@ -62,6 +63,28 @@ namespace CosmoDog.UIControl
 
             //var s = schema.First().Value.Select(c => c.ItemStorageType).First().ToList();
             //MessageBox.Show(string.Join(Environment.NewLine,s ));
+        }
+
+        private void Tcol_OnCellClickHandler(string value, int clicks, string columnName, object sourceId)
+        {
+            if (clicks == 1)
+            {
+                if (value.StartsWith("[") && value.EndsWith("]"))
+                {
+                    var tcol = new TypeCollectionViewBox();
+                    tcol.Dock = DockStyle.Top;
+                    tcol.Init(value, columnName, sourceId, this.tbQueryStringEverywhere.Text);
+                    tcol.OnCellClickHandler += Tcol_OnCellClickHandler;
+                    pResults.Controls.Add(tcol);
+                }
+            }
+            else
+            if (clicks == 2)
+            {
+                tbQueryString.Text = "";
+                tbQueryStringEverywhere.Text = value;
+                Search();
+            }
         }
 
         private CollectionTypes schema;
@@ -77,6 +100,17 @@ namespace CosmoDog.UIControl
                 schema.Add(cosmosDb, col);
             }
             return this.schema;
+        }
+
+        private void btnSearchEverywhere_Click(object sender, EventArgs e)
+        {
+            tbQueryStringEverywhere.Text = Clipboard.GetText();
+            Search();
+        }
+
+        private void btnRun_Click(object sender, EventArgs e)
+        {
+            Search();
         }
     }
 
@@ -122,7 +156,7 @@ namespace CosmoDog.UIControl
                 where = where + " and c." + TypeField + " != '" + t.ItemStorageType + "'";
             }
             
-            var document = FrmMain.ExecuteQuery(cosmosDb.Client, col, where).FirstOrDefault();
+            var document = FrmMain.ExecuteQuery<JObject>(cosmosDb.Client, col, where).FirstOrDefault();
 
             if (AddTypeSchema(typeSchemas, document))
                 return true;

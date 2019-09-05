@@ -99,7 +99,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(188, 0);
+            this.label1.Location = new System.Drawing.Point(191, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 3;
@@ -107,17 +107,17 @@
             // 
             // tbSearchPattern
             // 
-            this.tbSearchPattern.Location = new System.Drawing.Point(229, -3);
+            this.tbSearchPattern.Location = new System.Drawing.Point(232, -3);
             this.tbSearchPattern.Name = "tbSearchPattern";
-            this.tbSearchPattern.Size = new System.Drawing.Size(100, 20);
+            this.tbSearchPattern.Size = new System.Drawing.Size(55, 20);
             this.tbSearchPattern.TabIndex = 2;
             this.tbSearchPattern.Text = "V3";
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(335, -5);
+            this.btnSelectAll.Location = new System.Drawing.Point(80, -3);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(108, 23);
+            this.btnSelectAll.Size = new System.Drawing.Size(110, 23);
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = "Select/Unselect all";
             this.btnSelectAll.UseVisualStyleBackColor = true;

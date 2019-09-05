@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Microsoft.Azure.CosmosDB.BulkExecutor;
+using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
 
 namespace CosmoDog
@@ -33,6 +34,15 @@ namespace CosmoDog
             
             InitializeComponent();
             FrmMain.DefaultText = this.Text;
+
+            tbMaxThreads.Text = RegistryUtils.Read("CosmoDog-MaxThreads", MaxThreads.ToString());
+            tbMaxThreads_TextChanged(null, null);
+
+            tbImportFolder.Text = RegistryUtils.Read("CosmoDog-ImportFolder", "");
+            tbImportZip.Text = RegistryUtils.Read("CosmoDog-ImportZip", "");
+
+            tbExportFolder.Text = RegistryUtils.Read("CosmoDog-ExportFolder", "");
+            
         }
 
         public Document GetDocument(DocumentClient client, string altLink, string id)
@@ -44,7 +54,7 @@ namespace CosmoDog
 
         #region Base Async
         
-        private void UpdateProgress(string text, Document doc)
+        private void UpdateProgress(string text, object doc=null)
         {
             Debug.WriteLine(text);
             //Instance.lbLog.Invoke(new Action(() => FrmMain.Instance.UpdateProgressStatic(text, doc)));
@@ -168,7 +178,57 @@ namespace CosmoDog
         #endregion
 
 
+        #region Export Documents Async
+        public async Task ExportDocumentQueue(int maxThreads, IList<JObject> docs, DocumentCollection col, string folder)
+        {
+            folder = folder + "\\Tenant." + col.Id+"\\";
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
 
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = maxThreads };
+            Parallel.ForEach(docs, options, doc =>
+            {
+                try
+                {
+                    ExportDocument(doc, col, folder);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+                
+            });
+        }
+
+        public void ExportDocument(JObject doc, DocumentCollection col, string folder)
+        {
+            var id = doc.GetValue("id");
+            if (id == null)
+            {
+            }
+
+            try
+            {
+                
+                this.UpdateProgress("Export document id:"+id+" Col:"+col.Id, doc);
+
+                var fileName = folder +id + ".json";
+                
+                using (var file = new System.IO.StreamWriter(fileName, false))
+                {
+                    var jsondata = doc.ToString();
+                    file.Write(jsondata);
+                }
+            }
+            catch (Exception e)
+            {
+                this.UpdateProgress("Cannot !!! export doc " + id + " from " + col.Id, doc);
+            }
+        }
+
+        #endregion
 
         public void DeleteDataInSelectedCollections()
         {
@@ -312,7 +372,6 @@ namespace CosmoDog
         private void FrmMain_Load(object sender, EventArgs e)
         {
             cosmosDest.Init();
-            cosmosSource.Init();
 
             collectionGroupViewBox1.Init(cosmosDest);
         }
@@ -417,7 +476,7 @@ namespace CosmoDog
                 var tempFolder = GetTempDirectory();
                 ZipFile.ExtractToDirectory(zipFile, tempFolder);
                 var rootFolder = Directory.GetDirectories(tempFolder).First();
-                tbImportFolder.Text = tempFolder;
+                tbImportFolder.Text = rootFolder;
                 ImportFromFolder(rootFolder);
             }
             catch (Exception exception)
@@ -433,32 +492,32 @@ namespace CosmoDog
                 var start = DateTime.Now;
                 LogWriteLine("Upload start " + start);
                 var getAssessementFolders = Directory.GetDirectories(rootFolder, "CMv3*");
-                LogWriteLine("Upload assessements from " + rootFolder);
-                foreach (var folder in getAssessementFolders)
-                {
-                    LogWriteLine("Upload assessement:" + folder.Replace(Path.GetDirectoryName(folder) + "\\", ""));
-                    LogWriteLine("Upload ComplianceDashboardTiles...");
-                    ImportFolderJsonsToCollection(folder + @"\ComplianceDashboardTiles", "ComplianceDashboardTileV3");
+                //LogWriteLine("Upload assessements from " + rootFolder);
+                //foreach (var folder in getAssessementFolders)
+                //{
+                //    LogWriteLine("Upload assessement:" + folder.Replace(Path.GetDirectoryName(folder) + "\\", ""));
+                //    LogWriteLine("Upload ComplianceDashboardTiles...");
+                //    ImportFolderJsonsToCollection(folder + @"\ComplianceDashboardTiles", "ComplianceDashboardTileV3");
 
-                    LogWriteLine("Upload ControlFamilies...");
-                    ImportFolderJsonsToCollection(folder + @"\ControlFamilies", "ControlFamilyLookupV3");
-                }
+                //    LogWriteLine("Upload ControlFamilies...");
+                //    ImportFolderJsonsToCollection(folder + @"\Tenant.ControlFamilies", "ControlFamilyLookupV3");
+                //}
 
-                LogWriteLine("Upload Root\\ComplianceDashboardTiles...");
-                ImportFolderJsonsToCollection(rootFolder + @"\ComplianceDashboardTileV3", "ComplianceDashboardTileV3");
+                LogWriteLine("Upload ComplianceDashboardTiles...");
+                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ComplianceDashboardTileV3", "ComplianceDashboardTileV3");
 
-                LogWriteLine("Upload Root\\ControlFamilyLookupV3...");
-                ImportFolderJsonsToCollection(rootFolder + @"\ControlFamilyLookupV3", "ControlFamilyLookupV3");
+                LogWriteLine("Upload ControlFamilyLookupV3...");
+                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ControlFamilyLookupV3", "ControlFamilyLookupV3");
 
                 LogWriteLine("Upload CustomerActions...");
-                ImportFolderJsonsToCollection(rootFolder + @"\TenantManagement\CustomerActions",
+                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.CustomerActionLookupV3",
                     "CustomerActionLookupV3");
 
                 LogWriteLine("Upload Lookups...");
-                ImportFolderJsonsToCollection(rootFolder + @"\TenantManagement\Lookups", "LookUpStorageV3");
+                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.LookUpStorageV3", "LookUpStorageV3");
 
                 LogWriteLine("Upload UserActions...");
-                ImportFolderJsonsToCollection(rootFolder + @"\TenantManagement\UserActions", "UserActionsV3");
+                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.UserActionsV3", "UserActionsV3");
 
                 LogWriteLine("Upload Done!");
                 var end= DateTime.Now-start;
@@ -519,7 +578,7 @@ namespace CosmoDog
                 ////.Result;
             }
             else
-            {
+            {   
                 var collectionUri = UriFactory.CreateDocumentCollectionUri(cosmosDest.DbName, collectionIdDestination);
                 
                 Parallel.ForEach(documentsToImportInBatch, options,
@@ -527,18 +586,15 @@ namespace CosmoDog
             }
         }
 
-        public static List<JObject> ExecuteQuery(DocumentClient client, DocumentCollection col, string where)
+        public static List<T> ExecuteQuery<T>(DocumentClient client, DocumentCollection col, string where)
         {
-            if (where == "1=1")
+            if(where.Length<4)// == "1=1")||(where == "1=0")
                 where = "";
 
-            string query = "SELECT * FROM " + col.Id+" c ";
-
-            if (where !="")
-                query+= (where ==""?"":"WHERE ")+ where;
+            var query = "SELECT * FROM " + col.Id + " c "  + (where ==""?"":"WHERE ")+ where;
 
             var querySqlQuerySpec = new SqlQuerySpec(query);
-            var documents = client.CreateDocumentQuery<JObject>(col.SelfLink, query,
+            var documents = client.CreateDocumentQuery<T>(col.SelfLink, query,
                 new FeedOptions() { EnableCrossPartitionQuery = true }).AsEnumerable().ToList();
 
             return documents;
@@ -571,13 +627,20 @@ namespace CosmoDog
 
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
-            using(var fbd = new FolderBrowserDialog())
+            using (var fbd = new FolderBrowserDialog())
             {
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    tbImportFolder.Text = fbd.SelectedPath;
+                    if (((Button) sender) == btnChooseExportFolder)
+                    {
+                        tbExportFolder.Text = fbd.SelectedPath;
+                    }
+                    else
+                    {
+                        tbImportFolder.Text = fbd.SelectedPath;
+                    }
                 }
             }
         }
@@ -604,6 +667,51 @@ namespace CosmoDog
             var temp = cosmosSource.EndPoint;
             cosmosSource.EndPoint = cosmosDest.EndPoint;
             cosmosDest.EndPoint = temp;
+        }
+
+        private void tbMaxThreads_TextChanged(object sender, EventArgs e)
+        {
+            MaxThreads = int.Parse(tbMaxThreads.Text);
+        }
+
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            RegistryUtils.Write("CosmoDog-MaxThreads", tbMaxThreads.Text);
+            RegistryUtils.Write("CosmoDog-ImportFolder", tbImportFolder.Text);
+            RegistryUtils.Write("CosmoDog-ImportZip", tbImportZip.Text);
+            RegistryUtils.Write("CosmoDog-ExportFolder", tbExportFolder.Text);
+        }
+
+
+        private bool isFirstTimeSourceInit = true;
+        private void tcMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tcMain.SelectedTab == tpExport)
+            {
+                if (isFirstTimeSourceInit)
+                {
+                    isFirstTimeSourceInit = false;
+                    cosmosSource.Init();
+                }
+            }
+        }
+
+        private void btnExportToFolder_Click(object sender, EventArgs e)
+        {
+            var where = "";
+
+            if (tbExportPartitionKey.Text.Trim() != "")
+                where = $"c.{tbExportPartitionKey.Text}='{tbExportPartitionValue.Text}'";
+            foreach (var col in cosmosDest.SelectedCollections)
+            {
+                LogWriteLine("Export from " + col.Id);
+                
+                //var docs = cosmosDest.Client.CreateDocumentQuery(coll.DocumentsLink, new FeedOptions() {EnableCrossPartitionQuery = true});
+                var docs = FrmMain.ExecuteQuery<JObject>(cosmosDest.Client, col, where);
+
+                ExportDocumentQueue(MaxThreads, docs.ToList(), col, tbExportFolder.Text).Wait();
+            }
+            LogWriteLine("Export done!");
         }
     }
 }

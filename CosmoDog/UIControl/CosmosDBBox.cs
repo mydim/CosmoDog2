@@ -86,7 +86,7 @@ namespace CosmoDog
 
         public void Init()
         {
-        if (this.DesignMode)
+            if (this.DesignMode)
             {
                 return;
             }
@@ -127,13 +127,15 @@ namespace CosmoDog
                 }
 
                 cbDB_SelectedIndexChanged(null, null);
+                btnSelectAll_Click(null, null);
             }
             catch (Exception exception)
             {
                 Text = "Exception:" + exception.Message;
             }
             finally
-            {this.cbDB.SelectedIndexChanged += new System.EventHandler(this.cbDB_SelectedIndexChanged);
+            {
+                this.cbDB.SelectedIndexChanged += new System.EventHandler(this.cbDB_SelectedIndexChanged);
             }
         }
 

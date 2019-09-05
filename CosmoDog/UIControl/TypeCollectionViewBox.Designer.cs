@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DevExpress.XtraGrid.GridGroupSummaryItem gridGroupSummaryItem1 = new DevExpress.XtraGrid.GridGroupSummaryItem();
             this.gbMain = new DevExpress.XtraEditors.GroupControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gcView = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.gbMain)).BeginInit();
-            this.gbMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcView)).BeginInit();
             this.SuspendLayout();
@@ -43,7 +43,7 @@
             this.gbMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbMain.Location = new System.Drawing.Point(0, 0);
             this.gbMain.Name = "gbMain";
-            this.gbMain.Size = new System.Drawing.Size(1139, 642);
+            this.gbMain.Size = new System.Drawing.Size(1090, 390);
             this.gbMain.TabIndex = 0;
             this.gbMain.Text = "{Collection} - {Type}";
             // 
@@ -53,7 +53,7 @@
             this.gcMain.Location = new System.Drawing.Point(2, 20);
             this.gcMain.MainView = this.gcView;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1135, 620);
+            this.gcMain.Size = new System.Drawing.Size(1086, 368);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gcView});
@@ -61,9 +61,16 @@
             // gcView
             // 
             this.gcView.GridControl = this.gcMain;
+            gridGroupSummaryItem1.SummaryType = DevExpress.Data.SummaryItemType.Count;
+            this.gcView.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            gridGroupSummaryItem1});
             this.gcView.Name = "gcView";
+            this.gcView.OptionsSelection.InvertSelection = true;
             this.gcView.OptionsView.ColumnAutoWidth = false;
+            this.gcView.OptionsView.ShowFooter = true;
+            this.gcView.OptionsView.ShowGroupedColumns = true;
             this.gcView.OptionsView.ShowGroupPanel = false;
+            this.gcView.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gcView_RowCellClick);
             // 
             // TypeCollectionViewBox
             // 
@@ -71,9 +78,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbMain);
             this.Name = "TypeCollectionViewBox";
-            this.Size = new System.Drawing.Size(1139, 642);
+            this.Size = new System.Drawing.Size(1090, 390);
             ((System.ComponentModel.ISupportInitialize)(this.gbMain)).EndInit();
-            this.gbMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcView)).EndInit();
             this.ResumeLayout(false);
