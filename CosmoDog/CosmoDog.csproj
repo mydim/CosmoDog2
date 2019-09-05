@@ -130,6 +130,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RegistryUtils.cs" />
     <Compile Include="UIControl\CollectionGroupViewBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
