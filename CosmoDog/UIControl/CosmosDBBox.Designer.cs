@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sbSetVdmfro = new DevExpress.XtraEditors.SimpleButton();
             this.cbDB = new System.Windows.Forms.ComboBox();
             this.tbEndpoint = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -42,6 +43,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.sbSetVdmfro);
             this.groupBox1.Controls.Add(this.cbDB);
             this.groupBox1.Controls.Add(this.tbEndpoint);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -51,6 +53,15 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection (AccountEndpoint;AccountKey / DB Name)";
+            // 
+            // sbSetVdmfro
+            // 
+            this.sbSetVdmfro.Location = new System.Drawing.Point(280, 1);
+            this.sbSetVdmfro.Name = "sbSetVdmfro";
+            this.sbSetVdmfro.Size = new System.Drawing.Size(60, 16);
+            this.sbSetVdmfro.TabIndex = 5;
+            this.sbSetVdmfro.Text = "v-dmfro2";
+            this.sbSetVdmfro.Click += new System.EventHandler(this.sbSetVdmfro_Click);
             // 
             // cbDB
             // 
@@ -69,8 +80,9 @@
             this.tbEndpoint.Name = "tbEndpoint";
             this.tbEndpoint.Size = new System.Drawing.Size(443, 20);
             this.tbEndpoint.TabIndex = 0;
-            this.tbEndpoint.Text = "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIW" +
-    "EHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+            this.tbEndpoint.Text = "AccountEndpoint=https://stp-nosqlacct-v-dmfro2.documents.azure.com:443/;AccountKe" +
+    "y=yagValEDVjeRMpFQLWX3P8FzrjCckkVF49Xo0k1XFCw9knoIjRNfFaHwcuIhAdVM95rxdAvvRbprZd" +
+    "qPpHTk3Q==;";
             this.tbEndpoint.TextChanged += new System.EventHandler(this.tbEndpoint_TextChanged);
             // 
             // groupBox2
@@ -149,5 +161,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbSearchPattern;
         private System.Windows.Forms.ComboBox cbDB;
+        private DevExpress.XtraEditors.SimpleButton sbSetVdmfro;
     }
 }

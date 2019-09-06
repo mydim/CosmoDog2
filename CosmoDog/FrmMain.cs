@@ -230,32 +230,30 @@ namespace CosmoDog
 
         #endregion
 
-        public void DeleteDataInSelectedCollections()
-        {
-            foreach (var coll in cosmosDest.SelectedCollections)
-            {
-                LogWriteLine("Delete from " + coll.Id);
+        //public void DeleteDataInSelectedCollections()
+        //{
+        //    foreach (var coll in cosmosDest.SelectedCollections)
+        //    {
+        //        LogWriteLine("Delete from " + coll.Id);
 
-                var docs = cosmosDest.Client.CreateDocumentQuery(coll.DocumentsLink);
-                foreach (var doc in docs)
-                {
-                    LogWriteLine("Delete doc " + doc.Id + " in " + coll.Id);
-                    try
-                    {
-                        DeleteDocument(doc, coll);
-
+        //        var docs = cosmosDest.Client.CreateDocumentQuery(coll.DocumentsLink);
+        //        foreach (var doc in docs)
+        //        {
+        //            LogWriteLine("Delete doc " + doc.Id + " in " + coll.Id);
+        //            try
+        //            {
+        //                DeleteDocument(doc, coll);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                LogWriteLine("Cannot !!! Delete doc " + doc.Id + " in " + coll.Id);
                         
-                    }
-                    catch (Exception e)
-                    {
-                        LogWriteLine("Cannot !!! Delete doc " + doc.Id + " in " + coll.Id);
-                        
-                    }
+        //            }
                     
-                }
-            }
-            LogWriteLine("Deleting done!");
-        }
+        //        }
+        //    }
+        //    LogWriteLine("Deleting done!");
+        //}
 
         public void CopyFromSourceToDestination()
         {
@@ -296,14 +294,14 @@ namespace CosmoDog
 
         private void btnDeleteDataInSelected_Click(object sender, EventArgs e)
         {
-            lbLog.Items.Clear();
-            DeleteDataInSelectedCollections();
+            //lbLog.Items.Clear();
+            //DeleteDataInSelectedCollections();
         }
 
         private void btnOverride_Click(object sender, EventArgs e)
         {
             lbLog.Items.Clear();
-            DeleteDataInSelectedCollections();
+            DeleteDataInSelectedCollectionsAsync();
             CopyFromSourceToDestination();
         }
 
@@ -376,18 +374,37 @@ namespace CosmoDog
             collectionGroupViewBox1.Init(cosmosDest);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void btnDeleteDataInSelectedCollectionsAsync_Click(object sender, EventArgs e)
+        {
+            DeleteDataInSelectedCollectionsAsync();
+        }
+
+
+        void DeleteDataInSelectedCollectionsAsync()
         {
             foreach (var coll in cosmosDest.SelectedCollections)
             {
                 LogWriteLine("Delete from " + coll.Id);
-                
-                var docs = cosmosDest.Client.CreateDocumentQuery(coll.DocumentsLink, new FeedOptions() {EnableCrossPartitionQuery = true});
-                DeleteDocumentQueue(MaxThreads, docs.ToList(), coll).Wait();
-                
+
+                var docs = cosmosDest.Client.CreateDocumentQuery(coll.DocumentsLink, new FeedOptions() { EnableCrossPartitionQuery = true });
+                var list = docs.ToList();
+                if (tbDeleteFilterValue.Text != "")
+                {
+                    if (cbDeleteFilterConditionEquals.Checked)
+                    {
+                        list = list.Where(i => i.GetPropertyValue<JValue>(tbDeleteFilterField.Text).Value.ToString() == tbDeleteFilterValue.Text).ToList();
+                    }
+                    else
+                    {
+                        list = list.Where(i => i.GetPropertyValue<JValue>(tbDeleteFilterField.Text).Value.ToString() != tbDeleteFilterValue.Text).ToList();
+                    }
+                }
+
+                DeleteDocumentQueue(MaxThreads, list, coll).Wait();
+
             }
             LogWriteLine("Deleting done!");
-           
         }
 
         private void ResetDestinationColletion(DocumentCollection colSource, bool needDelete = false)
@@ -491,33 +508,40 @@ namespace CosmoDog
             {
                 var start = DateTime.Now;
                 LogWriteLine("Upload start " + start);
-                var getAssessementFolders = Directory.GetDirectories(rootFolder, "CMv3*");
+                var jsons = Directory.GetFiles(rootFolder, "*.json");
                 //LogWriteLine("Upload assessements from " + rootFolder);
-                //foreach (var folder in getAssessementFolders)
-                //{
-                //    LogWriteLine("Upload assessement:" + folder.Replace(Path.GetDirectoryName(folder) + "\\", ""));
-                //    LogWriteLine("Upload ComplianceDashboardTiles...");
-                //    ImportFolderJsonsToCollection(folder + @"\ComplianceDashboardTiles", "ComplianceDashboardTileV3");
+                foreach (var json in jsons)
+                {
+                    var fileName = Path.GetFileName(json).ToLower().Replace(".json","").Replace("tenant.","");
+                    LogWriteLine("Upload file:" + fileName);
+                    ImportFolderJsonsToCollection(json, fileName);
 
-                //    LogWriteLine("Upload ControlFamilies...");
-                //    ImportFolderJsonsToCollection(folder + @"\Tenant.ControlFamilies", "ControlFamilyLookupV3");
-                //}
+                    //LogWriteLine("Upload ControlFamilies...");
+                    //ImportFolderJsonsToCollection(folder + @"\Tenant.ControlFamilies", "ControlFamilyLookupV3");
+                }
 
-                LogWriteLine("Upload ComplianceDashboardTiles...");
-                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ComplianceDashboardTileV3", "ComplianceDashboardTileV3");
 
-                LogWriteLine("Upload ControlFamilyLookupV3...");
-                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ControlFamilyLookupV3", "ControlFamilyLookupV3");
+                //LogWriteLine("Upload ComplianceDashboardTiles...");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ComplianceDashboardTileV3", "ComplianceDashboardTileV3");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ComplianceDashboardTileV3.1", "ComplianceDashboardTileV3.1");
 
-                LogWriteLine("Upload CustomerActions...");
-                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.CustomerActionLookupV3",
-                    "CustomerActionLookupV3");
+                //LogWriteLine("Upload ControlFamilyLookupV3...");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ControlFamilyLookupV3", "ControlFamilyLookupV3");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.ControlFamilyLookupV3.1", "ControlFamilyLookupV3.1");
 
-                LogWriteLine("Upload Lookups...");
-                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.LookUpStorageV3", "LookUpStorageV3");
+                //LogWriteLine("Upload CustomerActions...");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.CustomerActionLookupV3",
+                //    "CustomerActionLookupV3");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.CustomerActionLookupV3.1",
+                //    "CustomerActionLookupV3.1");
 
-                LogWriteLine("Upload UserActions...");
-                ImportFolderJsonsToCollection(rootFolder + @"\Tenant.UserActionsV3", "UserActionsV3");
+                //LogWriteLine("Upload Lookups...");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.LookUpStorageV3", "LookUpStorageV3");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.LookUpStorageV3.1", "LookUpStorageV3.1");
+
+                //LogWriteLine("Upload UserActions...");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.UserActionsV3", "UserActionsV3");
+                //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.UserActionsV3.1", "UserActionsV3.1");
 
                 LogWriteLine("Upload Done!");
                 var end= DateTime.Now-start;
@@ -531,10 +555,10 @@ namespace CosmoDog
 
         private void ImportFolderJsonsToCollection(string folder, string collectionIdDestination)
         {
-            if (!Directory.Exists(folder))
-            {
-                return;
-            }
+            //if (!Directory.Exists(folder))
+            //{
+            //    return;
+            //}
 
             var options = new ParallelOptions() {MaxDegreeOfParallelism = MaxThreads};
 
@@ -590,8 +614,8 @@ namespace CosmoDog
         {
             if(where.Length<4)// == "1=1")||(where == "1=0")
                 where = "";
-
-            var query = "SELECT * FROM " + col.Id + " c "  + (where ==""?"":"WHERE ")+ where;
+            //" + col.Id + " 
+            var query = "SELECT * FROM c "  + (where ==""?"":"WHERE ")+ where;
 
             var querySqlQuerySpec = new SqlQuerySpec(query);
             var documents = client.CreateDocumentQuery<T>(col.SelfLink, query,
@@ -627,20 +651,28 @@ namespace CosmoDog
 
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
-            {
-                DialogResult result = fbd.ShowDialog();
+            var fbd = new FolderBrowserDialog();
 
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            if (tbExportFolder.Text != "")
+            {
+                fbd.SelectedPath = tbExportFolder.Text;
+            }
+            else
+            {
+                fbd.SelectedPath = Application.ExecutablePath;
+            }
+
+            DialogResult result = fbd.ShowDialog();
+
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                if (((Button) sender) == btnChooseExportFolder)
                 {
-                    if (((Button) sender) == btnChooseExportFolder)
-                    {
-                        tbExportFolder.Text = fbd.SelectedPath;
-                    }
-                    else
-                    {
-                        tbImportFolder.Text = fbd.SelectedPath;
-                    }
+                    tbExportFolder.Text = fbd.SelectedPath;
+                }
+                else
+                {
+                    tbImportFolder.Text = fbd.SelectedPath;
                 }
             }
         }
@@ -713,5 +745,7 @@ namespace CosmoDog
             }
             LogWriteLine("Export done!");
         }
+
+      
     }
 }

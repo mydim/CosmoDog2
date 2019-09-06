@@ -214,6 +214,20 @@ namespace CosmoDog
                 Text = "Exception:" + exception.Message;
             }
         }
+
+        private void sbSetVdmfro_Click(object sender, EventArgs e)
+        {
+            if (tbEndpoint.Text !=
+                "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
+            )
+                tbEndpoint.Text =
+                    "AccountEndpoint = https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+
+
+            else
+                tbEndpoint.Text =
+                    "AccountEndpoint=https://stp-nosqlacct-v-dmfro2.documents.azure.com:443/;AccountKey=yagValEDVjeRMpFQLWX3P8FzrjCckkVF49Xo0k1XFCw9knoIjRNfFaHwcuIhAdVM95rxdAvvRbprZdqPpHTk3Q==";
+        }
     }
 
     public class StringItem<T>
