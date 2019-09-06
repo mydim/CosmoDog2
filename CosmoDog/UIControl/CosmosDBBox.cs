@@ -102,7 +102,7 @@ namespace CosmoDog
                     {
                         ConnectionMode = ConnectionMode.Direct,
                         ConnectionProtocol = Protocol.Tcp,
-                        MaxConnectionLimit = 1000
+                        MaxConnectionLimit = 400
                     });
                 // Set retry options high during initialization (default values).
                 this.Client.ConnectionPolicy.RetryOptions.MaxRetryWaitTimeInSeconds = 30;

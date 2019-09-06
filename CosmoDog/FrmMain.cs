@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Azure.CosmosDB.BulkExecutor;
 using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
+using Exception = System.Exception;
 
 namespace CosmoDog
 {
@@ -177,7 +178,6 @@ namespace CosmoDog
         }
         #endregion
 
-
         #region Export Documents Async
         public async Task ExportDocumentQueue(int maxThreads, IList<JObject> docs, DocumentCollection col, string folder)
         {
@@ -243,6 +243,8 @@ namespace CosmoDog
         //            try
         //            {
         //                DeleteDocument(doc, coll);
+
+                        
         //            }
         //            catch (Exception e)
         //            {
@@ -292,11 +294,11 @@ namespace CosmoDog
             LogWriteLine("Copy done!");
         }
 
-        private void btnDeleteDataInSelected_Click(object sender, EventArgs e)
-        {
-            //lbLog.Items.Clear();
-            //DeleteDataInSelectedCollections();
-        }
+        //private void btnDeleteDataInSelected_Click(object sender, EventArgs e)
+        //{
+        //    lbLog.Items.Clear();
+        //    DeleteDataInSelectedCollections();
+        //}
 
         private void btnOverride_Click(object sender, EventArgs e)
         {
@@ -373,7 +375,6 @@ namespace CosmoDog
 
             collectionGroupViewBox1.Init(cosmosDest);
         }
-
 
         private void btnDeleteDataInSelectedCollectionsAsync_Click(object sender, EventArgs e)
         {
@@ -512,9 +513,9 @@ namespace CosmoDog
                 //LogWriteLine("Upload assessements from " + rootFolder);
                 foreach (var json in jsons)
                 {
-                    var fileName = Path.GetFileName(json).ToLower().Replace(".json","").Replace("tenant.","");
+                    var fileName = Path.GetFileName(json).ToLower().Replace(".json", "").Replace("tenant.", "");
                     LogWriteLine("Upload file:" + fileName);
-                    ImportFolderJsonsToCollection(json, fileName);
+                    ImportFileToCollectionAsync(json, fileName);
 
                     //LogWriteLine("Upload ControlFamilies...");
                     //ImportFolderJsonsToCollection(folder + @"\Tenant.ControlFamilies", "ControlFamilyLookupV3");
@@ -544,7 +545,7 @@ namespace CosmoDog
                 //ImportFolderJsonsToCollection(rootFolder + @"\Tenant.UserActionsV3.1", "UserActionsV3.1");
 
                 LogWriteLine("Upload Done!");
-                var end= DateTime.Now-start;
+                var end = DateTime.Now - start;
                 LogWriteLine("Duration: " + end.TotalSeconds);
             }
             catch (Exception exception)
@@ -553,7 +554,7 @@ namespace CosmoDog
             }
         }
 
-        private void ImportFolderJsonsToCollection(string folder, string collectionIdDestination)
+        private async Task ImportFileToCollectionAsync(string jsonFile, string collectionIdDestination)
         {
             //if (!Directory.Exists(folder))
             //{
@@ -562,43 +563,54 @@ namespace CosmoDog
 
             var options = new ParallelOptions() {MaxDegreeOfParallelism = MaxThreads};
 
-            var jsonFiles = Directory.GetFiles(folder, "*.json");
+            //var jsonFiles = Directory.GetFiles(folder, "*.json");
 
             var documentsToImportInBatch = new List<string>();
-            foreach (var jsonFile in jsonFiles)
-            {
+            //foreach (var jsonFile in jsonFiles)
+            //{
                 documentsToImportInBatch.Add(File.ReadAllText(jsonFile));
-            }
-            
-            if (false)//cbBulkUpload.Checked)
+            //}
+
+            if (cbBulkUpload.Checked)
             {
-                //var dataCollection = cosmosDest.DocumentCollectionDict[collectionIdDestination];
+                var dataCollection = cosmosDest.DocumentCollectionDict[collectionIdDestination];
+                IBulkExecutor bulkExecutor = new BulkExecutor(cosmosDest.Client, dataCollection);
+                await bulkExecutor.InitializeAsync();
                 //var bulkExecutor = new BulkImportAsync(cosmosDest.Client, dataCollection);
                 //bulkExecutor.InitializeAsync().Wait();
-                //// Set retries to 0 to pass complete control to bulk executor.
-                //cosmosDest.Client.ConnectionPolicy.RetryOptions.MaxRetryWaitTimeInSeconds = 0;
-                //cosmosDest.Client.ConnectionPolicy.RetryOptions.MaxRetryAttemptsOnThrottledRequests = 0;
-                //var tokenSource = new CancellationTokenSource();
-                //var token = tokenSource.Token;
+                // Set retries to 0 to pass complete control to bulk executor.
+                cosmosDest.Client.ConnectionPolicy.RetryOptions.MaxRetryWaitTimeInSeconds = 0;
+                cosmosDest.Client.ConnectionPolicy.RetryOptions.MaxRetryAttemptsOnThrottledRequests = 0;
+                var tokenSource = new CancellationTokenSource();
+                var token = tokenSource.Token;
 
-            
+
                 //Parallel.ForEach(jsonFiles, options,
                 //    jsonFile => { documentsToImportInBatch.Add(File.ReadAllText(jsonFile)); });
 
-                ////var s = "{  \"name\": \"Afzaal Ahmad Zeeshan\",  \"id\": {"+Guid.NewGuid()+"}  /} ";
+                //var s = "{  \"name\": \"Afzaal Ahmad Zeeshan\",  \"id\": {"+Guid.NewGuid()+"}  /} ";
+
+                try
+                {
 
 
-                //Task.Run(async () => await bulkExecutor.BulkImportAsync(
-                //        documentsToImportInBatch,
-                //        enableUpsert: true,
-                //        disableAutomaticIdGeneration: true,
-                //        maxConcurrencyPerPartitionKeyRange: 2000,
-                //        maxInMemorySortingBatchSize: null, 
-                //        cancellationToken: token)).Wait();
+                    await bulkExecutor.BulkImportAsync(
+                        documentsToImportInBatch,
+                        enableUpsert: true,
+                        disableAutomaticIdGeneration: true,
+                        maxConcurrencyPerPartitionKeyRange: 2000,
+                        maxInMemorySortingBatchSize: null,
+                        cancellationToken: token);
 
-                ////var s = documentsToImportInBatch[0];
-                ////documentsToImportInBatch.Clear();
-                ////documentsToImportInBatch.Add(s);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                //var s = documentsToImportInBatch[0];
+                //documentsToImportInBatch.Clear();
+                //documentsToImportInBatch.Add(s);
                 ////.Result;
             }
             else
@@ -608,13 +620,14 @@ namespace CosmoDog
                 Parallel.ForEach(documentsToImportInBatch, options,
                     doc => { cosmosDest.Client.UpsertDocumentAsync(collectionUri, JObject.Parse(doc)).Wait(); });
             }
+            
         }
 
         public static List<T> ExecuteQuery<T>(DocumentClient client, DocumentCollection col, string where)
         {
             if(where.Length<4)// == "1=1")||(where == "1=0")
                 where = "";
-            //" + col.Id + " 
+
             var query = "SELECT * FROM c "  + (where ==""?"":"WHERE ")+ where;
 
             var querySqlQuerySpec = new SqlQuerySpec(query);
@@ -661,20 +674,20 @@ namespace CosmoDog
             {
                 fbd.SelectedPath = Application.ExecutablePath;
             }
-
             DialogResult result = fbd.ShowDialog();
 
-            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
-                if (((Button) sender) == btnChooseExportFolder)
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    tbExportFolder.Text = fbd.SelectedPath;
+                    if (((Button) sender) == btnChooseExportFolder)
+                    {
+                        tbExportFolder.Text = fbd.SelectedPath;
+                    }
+                    else
+                    {
+                        tbImportFolder.Text = fbd.SelectedPath;
+                    }
                 }
-                else
-                {
-                    tbImportFolder.Text = fbd.SelectedPath;
-                }
-            }
+            
         }
 
         private void btnImportFolder_Click(object sender, EventArgs e)
@@ -746,6 +759,10 @@ namespace CosmoDog
             LogWriteLine("Export done!");
         }
 
-      
+        private void collectionGroupViewBox1_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

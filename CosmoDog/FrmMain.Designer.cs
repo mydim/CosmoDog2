@@ -34,15 +34,14 @@ namespace CosmoDog
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbSource = new System.Windows.Forms.GroupBox();
             this.btnSwtichConnection = new System.Windows.Forms.Button();
+            this.cosmosSource = new CosmoDog.CosmosDBBox();
             this.gbDest = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.cbDeleteFilterConditionEquals = new System.Windows.Forms.CheckBox();
             this.btnDeleteDataInSelectedCollectionsAsync = new System.Windows.Forms.Button();
             this.tbDeleteFilterValue = new System.Windows.Forms.TextBox();
-            this.tbMaxThreads = new System.Windows.Forms.TextBox();
             this.tbDeleteFilterField = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.lMaxThreads = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.cbIsNeedCleanExportFolder = new System.Windows.Forms.CheckBox();
@@ -55,6 +54,7 @@ namespace CosmoDog
             this.tbExportFolder = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbLog = new System.Windows.Forms.ListBox();
+            this.lMaxThreads = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbBulkUpload = new System.Windows.Forms.CheckBox();
             this.btnChooseImportFolder = new System.Windows.Forms.Button();
@@ -63,7 +63,9 @@ namespace CosmoDog
             this.btnImportFolder = new System.Windows.Forms.Button();
             this.btnImportFromZip = new System.Windows.Forms.Button();
             this.tbImportZip = new System.Windows.Forms.TextBox();
+            this.tbMaxThreads = new System.Windows.Forms.TextBox();
             this.btnReacreateCollections = new System.Windows.Forms.Button();
+            this.cosmosDest = new CosmoDog.CosmosDBBox();
             this.btnCreateCollectionFromSource = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.btnOverride = new System.Windows.Forms.Button();
@@ -95,12 +97,10 @@ namespace CosmoDog
             this.btnCopyAsync = new System.Windows.Forms.Button();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpExplorer = new System.Windows.Forms.TabPage();
+            this.collectionGroupViewBox1 = new CosmoDog.UIControl.CollectionGroupViewBox();
             this.tpExport = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.tpQuery = new System.Windows.Forms.TabPage();
-            this.collectionGroupViewBox1 = new CosmoDog.UIControl.CollectionGroupViewBox();
-            this.cosmosSource = new CosmoDog.CosmosDBBox();
-            this.cosmosDest = new CosmoDog.CosmosDBBox();
             this.panel1.SuspendLayout();
             this.gbSource.SuspendLayout();
             this.gbDest.SuspendLayout();
@@ -148,6 +148,17 @@ namespace CosmoDog
             this.btnSwtichConnection.UseVisualStyleBackColor = true;
             this.btnSwtichConnection.Click += new System.EventHandler(this.btnSwtichConnection_Click);
             // 
+            // cosmosSource
+            // 
+            this.cosmosSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cosmosSource.EndPoint = "AccountEndpoint=https://stp-nosqlacct-v-degop2.documents.azure.com:443/;AccountKe" +
+    "y=QUTGAtthw8z1tnsEZIKqhPQjcQlHLPNh6OyILi27gqlwFnasCHvfn2Atx5ztSmzzpllFlHIvX3TWmh" +
+    "VqVmawRQ==";
+            this.cosmosSource.Location = new System.Drawing.Point(3, 16);
+            this.cosmosSource.Name = "cosmosSource";
+            this.cosmosSource.Size = new System.Drawing.Size(786, 480);
+            this.cosmosSource.TabIndex = 0;
+            // 
             // gbDest
             // 
             this.gbDest.Controls.Add(this.groupBox7);
@@ -159,24 +170,24 @@ namespace CosmoDog
             this.gbDest.Dock = System.Windows.Forms.DockStyle.Left;
             this.gbDest.Location = new System.Drawing.Point(0, 0);
             this.gbDest.Name = "gbDest";
-            this.gbDest.Size = new System.Drawing.Size(291, 927);
+            this.gbDest.Size = new System.Drawing.Size(295, 927);
             this.gbDest.TabIndex = 3;
             this.gbDest.TabStop = false;
             this.gbDest.Text = "Destination DB for Import / Main Connection";
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.tbMaxThreads);
             this.groupBox7.Controls.Add(this.cbDeleteFilterConditionEquals);
             this.groupBox7.Controls.Add(this.btnDeleteDataInSelectedCollectionsAsync);
             this.groupBox7.Controls.Add(this.tbDeleteFilterValue);
-            this.groupBox7.Controls.Add(this.tbMaxThreads);
+            this.groupBox7.Controls.Add(this.lMaxThreads);
             this.groupBox7.Controls.Add(this.tbDeleteFilterField);
             this.groupBox7.Controls.Add(this.label13);
-            this.groupBox7.Controls.Add(this.lMaxThreads);
             this.groupBox7.Controls.Add(this.label12);
-            this.groupBox7.Location = new System.Drawing.Point(6, 480);
+            this.groupBox7.Location = new System.Drawing.Point(18, 499);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(273, 109);
+            this.groupBox7.Size = new System.Drawing.Size(273, 90);
             this.groupBox7.TabIndex = 10;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Delete";
@@ -184,7 +195,7 @@ namespace CosmoDog
             // cbDeleteFilterConditionEquals
             // 
             this.cbDeleteFilterConditionEquals.AutoSize = true;
-            this.cbDeleteFilterConditionEquals.Location = new System.Drawing.Point(38, 69);
+            this.cbDeleteFilterConditionEquals.Location = new System.Drawing.Point(38, 63);
             this.cbDeleteFilterConditionEquals.Name = "cbDeleteFilterConditionEquals";
             this.cbDeleteFilterConditionEquals.Size = new System.Drawing.Size(57, 17);
             this.cbDeleteFilterConditionEquals.TabIndex = 9;
@@ -193,7 +204,7 @@ namespace CosmoDog
             // 
             // btnDeleteDataInSelectedCollectionsAsync
             // 
-            this.btnDeleteDataInSelectedCollectionsAsync.Location = new System.Drawing.Point(163, 69);
+            this.btnDeleteDataInSelectedCollectionsAsync.Location = new System.Drawing.Point(163, 63);
             this.btnDeleteDataInSelectedCollectionsAsync.Name = "btnDeleteDataInSelectedCollectionsAsync";
             this.btnDeleteDataInSelectedCollectionsAsync.Size = new System.Drawing.Size(102, 23);
             this.btnDeleteDataInSelectedCollectionsAsync.TabIndex = 3;
@@ -203,23 +214,14 @@ namespace CosmoDog
             // 
             // tbDeleteFilterValue
             // 
-            this.tbDeleteFilterValue.Location = new System.Drawing.Point(209, 43);
+            this.tbDeleteFilterValue.Location = new System.Drawing.Point(209, 37);
             this.tbDeleteFilterValue.Name = "tbDeleteFilterValue";
             this.tbDeleteFilterValue.Size = new System.Drawing.Size(58, 20);
             this.tbDeleteFilterValue.TabIndex = 6;
             // 
-            // tbMaxThreads
-            // 
-            this.tbMaxThreads.Location = new System.Drawing.Point(209, 17);
-            this.tbMaxThreads.Name = "tbMaxThreads";
-            this.tbMaxThreads.Size = new System.Drawing.Size(53, 20);
-            this.tbMaxThreads.TabIndex = 7;
-            this.tbMaxThreads.Text = "10";
-            this.tbMaxThreads.TextChanged += new System.EventHandler(this.tbMaxThreads_TextChanged);
-            // 
             // tbDeleteFilterField
             // 
-            this.tbDeleteFilterField.Location = new System.Drawing.Point(38, 43);
+            this.tbDeleteFilterField.Location = new System.Drawing.Point(38, 37);
             this.tbDeleteFilterField.Name = "tbDeleteFilterField";
             this.tbDeleteFilterField.Size = new System.Drawing.Size(125, 20);
             this.tbDeleteFilterField.TabIndex = 7;
@@ -228,25 +230,16 @@ namespace CosmoDog
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 46);
+            this.label13.Location = new System.Drawing.Point(6, 40);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(29, 13);
             this.label13.TabIndex = 8;
             this.label13.Text = "Filter";
             // 
-            // lMaxThreads
-            // 
-            this.lMaxThreads.AutoSize = true;
-            this.lMaxThreads.Location = new System.Drawing.Point(128, 20);
-            this.lMaxThreads.Name = "lMaxThreads";
-            this.lMaxThreads.Size = new System.Drawing.Size(69, 13);
-            this.lMaxThreads.TabIndex = 8;
-            this.lMaxThreads.Text = "Max Threads";
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(169, 46);
+            this.label12.Location = new System.Drawing.Point(169, 40);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(34, 13);
             this.label12.TabIndex = 8;
@@ -262,7 +255,7 @@ namespace CosmoDog
             this.groupBox6.Controls.Add(this.btnExportToFolder);
             this.groupBox6.Controls.Add(this.btnChooseExportFolder);
             this.groupBox6.Controls.Add(this.tbExportFolder);
-            this.groupBox6.Location = new System.Drawing.Point(6, 721);
+            this.groupBox6.Location = new System.Drawing.Point(6, 711);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(273, 77);
             this.groupBox6.TabIndex = 9;
@@ -347,9 +340,9 @@ namespace CosmoDog
             // 
             this.groupBox1.Controls.Add(this.lbLog);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(3, 804);
+            this.groupBox1.Location = new System.Drawing.Point(3, 794);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(285, 120);
+            this.groupBox1.Size = new System.Drawing.Size(289, 130);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Log";
@@ -360,8 +353,17 @@ namespace CosmoDog
             this.lbLog.FormattingEnabled = true;
             this.lbLog.Location = new System.Drawing.Point(3, 16);
             this.lbLog.Name = "lbLog";
-            this.lbLog.Size = new System.Drawing.Size(279, 101);
+            this.lbLog.Size = new System.Drawing.Size(283, 111);
             this.lbLog.TabIndex = 4;
+            // 
+            // lMaxThreads
+            // 
+            this.lMaxThreads.AutoSize = true;
+            this.lMaxThreads.Location = new System.Drawing.Point(134, 10);
+            this.lMaxThreads.Name = "lMaxThreads";
+            this.lMaxThreads.Size = new System.Drawing.Size(69, 13);
+            this.lMaxThreads.TabIndex = 8;
+            this.lMaxThreads.Text = "Max Threads";
             // 
             // groupBox5
             // 
@@ -372,7 +374,7 @@ namespace CosmoDog
             this.groupBox5.Controls.Add(this.btnImportFolder);
             this.groupBox5.Controls.Add(this.btnImportFromZip);
             this.groupBox5.Controls.Add(this.tbImportZip);
-            this.groupBox5.Location = new System.Drawing.Point(6, 624);
+            this.groupBox5.Location = new System.Drawing.Point(12, 595);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(273, 94);
             this.groupBox5.TabIndex = 4;
@@ -390,7 +392,6 @@ namespace CosmoDog
             this.cbBulkUpload.TabIndex = 6;
             this.cbBulkUpload.Text = "Bulk Upload";
             this.cbBulkUpload.UseVisualStyleBackColor = true;
-            this.cbBulkUpload.Visible = false;
             // 
             // btnChooseImportFolder
             // 
@@ -446,15 +447,35 @@ namespace CosmoDog
             this.tbImportZip.Size = new System.Drawing.Size(65, 20);
             this.tbImportZip.TabIndex = 0;
             // 
+            // tbMaxThreads
+            // 
+            this.tbMaxThreads.Location = new System.Drawing.Point(208, 7);
+            this.tbMaxThreads.Name = "tbMaxThreads";
+            this.tbMaxThreads.Size = new System.Drawing.Size(53, 20);
+            this.tbMaxThreads.TabIndex = 7;
+            this.tbMaxThreads.Text = "10";
+            this.tbMaxThreads.TextChanged += new System.EventHandler(this.tbMaxThreads_TextChanged);
+            // 
             // btnReacreateCollections
             // 
-            this.btnReacreateCollections.Location = new System.Drawing.Point(12, 595);
+            this.btnReacreateCollections.Location = new System.Drawing.Point(155, 470);
             this.btnReacreateCollections.Name = "btnReacreateCollections";
             this.btnReacreateCollections.Size = new System.Drawing.Size(138, 23);
             this.btnReacreateCollections.TabIndex = 3;
             this.btnReacreateCollections.Text = "Reacreate Collections";
             this.btnReacreateCollections.UseVisualStyleBackColor = true;
             this.btnReacreateCollections.Click += new System.EventHandler(this.btnReacreateCollections_Click);
+            // 
+            // cosmosDest
+            // 
+            this.cosmosDest.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cosmosDest.EndPoint = "AccountEndpoint=https://stp-nosqlacct-v-dmfro2.documents.azure.com:443/;AccountKe" +
+    "y=yagValEDVjeRMpFQLWX3P8FzrjCckkVF49Xo0k1XFCw9knoIjRNfFaHwcuIhAdVM95rxdAvvRbprZd" +
+    "qPpHTk3Q==;";
+            this.cosmosDest.Location = new System.Drawing.Point(3, 16);
+            this.cosmosDest.Name = "cosmosDest";
+            this.cosmosDest.Size = new System.Drawing.Size(289, 458);
+            this.cosmosDest.TabIndex = 1;
             // 
             // btnCreateCollectionFromSource
             // 
@@ -468,7 +489,7 @@ namespace CosmoDog
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(291, 0);
+            this.splitter1.Location = new System.Drawing.Point(295, 0);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(3, 927);
             this.splitter1.TabIndex = 9;
@@ -740,10 +761,10 @@ namespace CosmoDog
             this.tcMain.Controls.Add(this.tpExport);
             this.tcMain.Controls.Add(this.tpQuery);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcMain.Location = new System.Drawing.Point(291, 0);
+            this.tcMain.Location = new System.Drawing.Point(295, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(806, 927);
+            this.tcMain.Size = new System.Drawing.Size(802, 927);
             this.tcMain.TabIndex = 3;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -753,10 +774,19 @@ namespace CosmoDog
             this.tpExplorer.Location = new System.Drawing.Point(4, 22);
             this.tpExplorer.Name = "tpExplorer";
             this.tpExplorer.Padding = new System.Windows.Forms.Padding(3);
-            this.tpExplorer.Size = new System.Drawing.Size(798, 901);
+            this.tpExplorer.Size = new System.Drawing.Size(794, 901);
             this.tpExplorer.TabIndex = 1;
             this.tpExplorer.Text = "Explorer";
             this.tpExplorer.UseVisualStyleBackColor = true;
+            // 
+            // collectionGroupViewBox1
+            // 
+            this.collectionGroupViewBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.collectionGroupViewBox1.Location = new System.Drawing.Point(3, 3);
+            this.collectionGroupViewBox1.Name = "collectionGroupViewBox1";
+            this.collectionGroupViewBox1.Size = new System.Drawing.Size(788, 895);
+            this.collectionGroupViewBox1.TabIndex = 0;
+            this.collectionGroupViewBox1.Load += new System.EventHandler(this.collectionGroupViewBox1_Load);
             // 
             // tpExport
             // 
@@ -797,36 +827,6 @@ namespace CosmoDog
             this.tpQuery.Text = "Query";
             this.tpQuery.UseVisualStyleBackColor = true;
             // 
-            // collectionGroupViewBox1
-            // 
-            this.collectionGroupViewBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.collectionGroupViewBox1.Location = new System.Drawing.Point(3, 3);
-            this.collectionGroupViewBox1.Name = "collectionGroupViewBox1";
-            this.collectionGroupViewBox1.Size = new System.Drawing.Size(792, 895);
-            this.collectionGroupViewBox1.TabIndex = 0;
-            // 
-            // cosmosSource
-            // 
-            this.cosmosSource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cosmosSource.EndPoint = "AccountEndpoint=https://stp-nosqlacct-v-degop2.documents.azure.com:443/;AccountKe" +
-    "y=QUTGAtthw8z1tnsEZIKqhPQjcQlHLPNh6OyILi27gqlwFnasCHvfn2Atx5ztSmzzpllFlHIvX3TWmh" +
-    "VqVmawRQ==";
-            this.cosmosSource.Location = new System.Drawing.Point(3, 16);
-            this.cosmosSource.Name = "cosmosSource";
-            this.cosmosSource.Size = new System.Drawing.Size(786, 480);
-            this.cosmosSource.TabIndex = 0;
-            // 
-            // cosmosDest
-            // 
-            this.cosmosDest.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cosmosDest.EndPoint = "AccountEndpoint=https://stp-nosqlacct-v-dmfro2.documents.azure.com:443/;AccountKe" +
-    "y=yagValEDVjeRMpFQLWX3P8FzrjCckkVF49Xo0k1XFCw9knoIjRNfFaHwcuIhAdVM95rxdAvvRbprZd" +
-    "qPpHTk3Q==;";
-            this.cosmosDest.Location = new System.Drawing.Point(3, 16);
-            this.cosmosDest.Name = "cosmosDest";
-            this.cosmosDest.Size = new System.Drawing.Size(285, 458);
-            this.cosmosDest.TabIndex = 1;
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -865,7 +865,6 @@ namespace CosmoDog
             this.ResumeLayout(false);
 
         }
-
 
         #endregion
 
@@ -933,6 +932,7 @@ namespace CosmoDog
         private System.Windows.Forms.Button btnExportToFolder;
         private System.Windows.Forms.Button btnChooseExportFolder;
         private System.Windows.Forms.TextBox tbExportFolder;
+
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox cbDeleteFilterConditionEquals;
         private System.Windows.Forms.TextBox tbDeleteFilterValue;

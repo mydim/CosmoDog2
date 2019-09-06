@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.sbSetVdmfro = new DevExpress.XtraEditors.SimpleButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox(); this.sbSetVdmfro = new DevExpress.XtraEditors.SimpleButton();
+
             this.cbDB = new System.Windows.Forms.ComboBox();
             this.tbEndpoint = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -53,7 +53,6 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection (AccountEndpoint;AccountKey / DB Name)";
-            // 
             // sbSetVdmfro
             // 
             this.sbSetVdmfro.Location = new System.Drawing.Point(280, 1);
@@ -62,6 +61,7 @@
             this.sbSetVdmfro.TabIndex = 5;
             this.sbSetVdmfro.Text = "v-dmfro2";
             this.sbSetVdmfro.Click += new System.EventHandler(this.sbSetVdmfro_Click);
+
             // 
             // cbDB
             // 
@@ -81,8 +81,8 @@
             this.tbEndpoint.Size = new System.Drawing.Size(443, 20);
             this.tbEndpoint.TabIndex = 0;
             this.tbEndpoint.Text = "AccountEndpoint=https://stp-nosqlacct-v-dmfro2.documents.azure.com:443/;AccountKe" +
-    "y=yagValEDVjeRMpFQLWX3P8FzrjCckkVF49Xo0k1XFCw9knoIjRNfFaHwcuIhAdVM95rxdAvvRbprZd" +
-    "qPpHTk3Q==;";
+                                   "y=yagValEDVjeRMpFQLWX3P8FzrjCckkVF49Xo0k1XFCw9knoIjRNfFaHwcuIhAdVM95rxdAvvRbprZd" +
+                                   "qPpHTk3Q==;";
             this.tbEndpoint.TextChanged += new System.EventHandler(this.tbEndpoint_TextChanged);
             // 
             // groupBox2
@@ -161,6 +161,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbSearchPattern;
         private System.Windows.Forms.ComboBox cbDB;
+
         private DevExpress.XtraEditors.SimpleButton sbSetVdmfro;
     }
 }
